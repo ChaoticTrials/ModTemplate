@@ -125,6 +125,8 @@ create_gradle_properties() {
   local github_repo_name="$2"
   local mod_name="$3"
   local group="$4"
+  local curseforge_id="$5"
+  local modrinth_id="$6"
 
   cat <<EOF > ./gradle.properties
 org.gradle.jvmargs=-Xmx6G
@@ -151,8 +153,8 @@ base_version=1.0
 ## Upload Properties
 upload_versions=1.21
 upload_release=alpha
-# modrinth_project=modrinth_id
-# curse_project=curseforge_id
+modrinth_project=${modrinth_id}
+curse_project=${curseforge_id}
 
 ## Misc
 remote_maven=https://maven.melanx.de/release
@@ -246,7 +248,7 @@ read -p "Enter Modrinth ID: " modrinth_id
 # Call the function to create the file
 create_mods_toml_file "$mod_id" "$github_repo_name" "$mod_name" "$description"
 create_issue_templates "$mod_name"
-create_gradle_properties "$mod_id" "$github_repo_name" "$mod_name" "$group"
+create_gradle_properties "$mod_id" "$github_repo_name" "$mod_name" "$group" "$curseforge_id" "$modrinth_id"
 create_settings_gradle "$mod_name"
 create_main_class "$mod_id" "$mod_name" "$group"
 create_readme "$mod_name" "$description" "$curseforge_id" "$modrinth_id" "$mod_id"

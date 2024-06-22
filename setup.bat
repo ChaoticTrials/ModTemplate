@@ -13,7 +13,7 @@ set /p "modrinth_id=Enter Modrinth ID: "
 
 call :CreateModsTomlFile "%mod_id%" "%github_repo_name%" "%mod_name%" "%description%"
 call :CreateIssueTemplates "%mod_name%"
-call :CreateGradleProperties "%mod_id%" "%github_repo_name%" "%mod_name%" "%group%"
+call :CreateGradleProperties "%mod_id%" "%github_repo_name%" "%mod_name%" "%group%" "%curseforge_id%" "%modrinth_id%"
 call :CreateSettingsGradle "%mod_name%"
 call :CreateMainClass "%mod_id%" "%mod_name%" "%group%"
 call :CreateReadme "%mod_name%" "%description%" "%curseforge_id%" "%modrinth_id%" "%mod_id%"
@@ -158,6 +158,8 @@ set "mod_id=%~1"
 set "github_repo_name=%~2"
 set "mod_name=%~3"
 set "group=%~4"
+set "curseforge_id=%~5"
+set "modrinth_id=%~6"
 
 (
 echo org.gradle.jvmargs=-Xmx6G
@@ -184,8 +186,8 @@ echo.
 echo ## Upload Properties
 echo upload_versions=1.21
 echo upload_release=alpha
-echo # modrinth_project=modrinth_id
-echo # curse_project=curseforge_id
+echo modrinth_project=%modrinth_id%
+echo curse_project=%curseforge_id%
 echo.
 echo ## Misc
 echo remote_maven=https://maven.melanx.de/release

@@ -6,7 +6,6 @@ import org.w3c.dom.NodeList
 import javax.xml.parsers.DocumentBuilderFactory
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
-import org.slf4j.event.Level
 
 plugins {
     id 'java-library'
@@ -43,8 +42,6 @@ neoForge {
         mappingsVersion = project.parchment_mappings_version
     }
 
-//    accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
-
     runs {
         client {
             client()
@@ -73,7 +70,7 @@ neoForge {
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
             systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = Level.DEBUG
+            logLevel = org.slf4j.event.Level.DEBUG
             gameDirectory = project.file('run' + name.capitalize())
         }
     }
