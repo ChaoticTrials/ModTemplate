@@ -42,10 +42,10 @@ echo. > "src\main\resources\META-INF\accesstransformer.cfg"
 echo modLoader="javafml"
 echo loaderVersion="${loader_version_range}"
 echo license="${license}"
-echo issueTrackerURL="https://github.com/%github_repo_name%/issues"
+echo issueTrackerURL="https://github.com/ChaoticTrials/%github_repo_name%/issues"
 echo.
 echo [[mods]]
-echo modId="%mod_id%"
+echo modId="${modid}"
 echo version="${mod_version}"
 echo displayName="%mod_name%"
 echo updateJSONURL="https://assets.melanx.de/updates/%mod_id%.json"
@@ -55,14 +55,14 @@ echo description="""
 echo %description%
 echo """
 echo.
-echo [[dependencies.${mod_id}]]
+echo [[dependencies.${modid}]]
 echo    modId = "neoforge"
 echo    type = "required"
 echo    versionRange = "[${neo_version},)"
 echo    ordering="NONE"
 echo    side="BOTH"
 echo.
-echo [[dependencies.${mod_id}]]
+echo [[dependencies.${modid}]]
 echo    modId="minecraft"
 echo    type="required"
 echo    versionRange="[${minecraft_version},)"

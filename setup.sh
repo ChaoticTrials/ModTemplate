@@ -13,10 +13,10 @@ create_mods_toml_file() {
 modLoader="javafml"
 loaderVersion="\${loader_version_range}"
 license="\${license}"
-issueTrackerURL="https://github.com/${github_repo_name}/issues"
+issueTrackerURL="https://github.com/ChaoticTrials/${github_repo_name}/issues"
 
 [[mods]]
-modId="${mod_id}"
+modId="\${modid}"
 version="\${mod_version}"
 displayName="${mod_name}"
 updateJSONURL="https://assets.melanx.de/updates/${mod_id}.json"
@@ -26,14 +26,14 @@ description="""
 ${description}
 """
 
-[[dependencies.${mod_id}]]
+[[dependencies.\${modid}]]
     modId = "neoforge"
     type = "required"
     versionRange = "[\${neo_version},)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.\${modid}]]
     modId="minecraft"
     type="required"
     versionRange="[\${minecraft_version},)"
