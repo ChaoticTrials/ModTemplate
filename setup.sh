@@ -164,6 +164,7 @@ EOF
 
 create_settings_gradle() {
   local mod_name="$1"
+  local mod_name_no_spaces=$(echo "${mod_name}" | tr -d ' ')
 
   cat <<EOF > ./settings.gradle
 pluginManagement {
@@ -178,7 +179,7 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
-rootProject.name = '${mod_name}'
+rootProject.name = '${mod_name_no_spaces}'
 EOF
 }
 

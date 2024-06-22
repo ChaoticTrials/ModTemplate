@@ -199,6 +199,9 @@ rem Function to create settings.gradle file
 :CreateSettingsGradle
 set "mod_name=%~1"
 
+rem Remove spaces in mod_name
+set "mod_name_no_spaces=%mod_name: =%"
+
 (
 echo pluginManagement {
 echo     repositories {
@@ -212,7 +215,7 @@ echo plugins {
 echo     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 echo }
 echo.
-echo rootProject.name = '%mod_name%'
+echo rootProject.name = '%mod_name_no_spaces%'
 ) > ".\settings.gradle"
 goto :EOF
 
