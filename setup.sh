@@ -136,8 +136,8 @@ org.gradle.caching=true
 org.gradle.configuration-cache=true
 
 ## Mappings
-parchment_minecraft_version=1.20.6
-parchment_mappings_version=2024.06.02
+parchment_minecraft_version=1.21
+parchment_mappings_version=2024.06.23
 
 ## Loader Properties
 minecraft_version=1.21

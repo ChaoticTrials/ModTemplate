@@ -169,8 +169,8 @@ echo org.gradle.caching=true
 echo org.gradle.configuration-cache=true
 echo.
 echo ## Mappings
-echo parchment_minecraft_version=1.20.6
-echo parchment_mappings_version=2024.06.02
+echo parchment_minecraft_version=1.21
+echo parchment_mappings_version=2024.06.23
 echo.
 echo ## Loader Properties
 echo minecraft_version=1.21
