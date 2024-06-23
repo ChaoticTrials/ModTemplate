@@ -174,7 +174,7 @@ echo parchment_mappings_version=2024.06.02
 echo.
 echo ## Loader Properties
 echo minecraft_version=1.21
-echo neo_version=21.0.0-beta
+echo neo_version=21.0.30-beta
 echo loader_version_range=[4,^)
 echo.
 echo ## Mod Properties
