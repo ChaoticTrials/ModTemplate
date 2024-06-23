@@ -152,7 +152,7 @@ base_version=1.0
 
 ## Upload Properties
 upload_versions=1.21
-upload_release=alpha
+upload_release=beta
 modrinth_project=${modrinth_id}
 curse_project=${curseforge_id}
 
@@ -228,11 +228,11 @@ create_readme() {
 # §{mod_name}
 ${description}
 
-[![Curseforge](http://cf.way2muchnoise.eu/versions/For%20MC_${curseforge_id}_all.svg)](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
-[![CurseForge](http://cf.way2muchnoise.eu/full_${curseforge_id}_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
+[![Modrinth](https://badges.moddingx.org/modrinth/versions/${modrinth_id})](https://modrinth.com/mod/${mod_id})
+[![Modrinth](https://badges.moddingx.org/modrinth/downloads/${modrinth_id})](https://modrinth.com/mod/${mod_id})
 
-[![Modrinth](https://img.shields.io/modrinth/game-versions/${modrinth_id}?color=00AF5C&label=modrinth&logo=modrinth)](https://modrinth.com/mod/${mod_id})
-[![Modrinth](https://img.shields.io/modrinth/dt/${modrinth_id}?color=00AF5C&logo=modrinth)](https://modrinth.com/mod/${mod_id})
+[![Curseforge](https://badges.moddingx.org/curseforge/versions/${curseforge_id})](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
+[![CurseForge](https://badges.moddingx.org/curseforge/downloads/${curseforge_id})](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
 EOF
 }
 
