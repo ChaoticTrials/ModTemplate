@@ -141,7 +141,7 @@ parchment_mappings_version=2024.06.23
 
 ## Loader Properties
 minecraft_version=1.21
-neo_version=21.0.30-beta
+neo_version=21.0.38-beta
 loader_version_range=[4,)
 
 ## Mod Properties
