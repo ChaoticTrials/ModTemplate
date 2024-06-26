@@ -270,11 +270,11 @@ set "mod_id=%~5"
 echo # %mod_name%
 echo %description%
 echo.
-echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/versions/%modrinth_id%)](https://modrinth.com/mod/%mod_id%^)
-echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/downloads/%modrinth_id%)](https://modrinth.com/mod/%mod_id%^)
+echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/versions/%modrinth_id%^)](https://modrinth.com/mod/%mod_id%^)
+echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/downloads/%modrinth_id%^)](https://modrinth.com/mod/%mod_id%^)
 echo.
-echo [^^^![Curseforge](https://badges.moddingx.org/curseforge/versions/%curseforge_id%)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
-echo [^^^![CurseForge](https://badges.moddingx.org/curseforge/downloads/%curseforge_id%)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
+echo [^^^![Curseforge](https://badges.moddingx.org/curseforge/versions/%curseforge_id%^)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
+echo [^^^![CurseForge](https://badges.moddingx.org/curseforge/downloads/%curseforge_id%^)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
 ) > README.md
 
 goto :EOF
