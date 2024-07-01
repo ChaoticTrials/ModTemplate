@@ -242,7 +242,3 @@ String changelog(Project project) {
 
     return StandardCharsets.UTF_8.decode(ByteBuffer.wrap(stdout.toByteArray())).toString()
 }
-
-task idePostSync {
-    // ignore
-}
