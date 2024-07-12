@@ -170,11 +170,11 @@ echo org.gradle.configuration-cache=true
 echo.
 echo ## Mappings
 echo parchment_minecraft_version=1.21
-echo parchment_mappings_version=2024.06.23
+echo parchment_mappings_version=2024.07.07
 echo.
 echo ## Loader Properties
 echo minecraft_version=1.21
-echo neo_version=21.0.44-beta
+echo neo_version=21.0.86-beta
 echo loader_version_range=[4,^)
 echo.
 echo ## Mod Properties
