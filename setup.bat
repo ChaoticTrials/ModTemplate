@@ -170,11 +170,11 @@ echo org.gradle.configuration-cache=true
 echo.
 echo ## Mappings
 echo parchment_minecraft_version=1.21
-echo parchment_mappings_version=2024.07.07
+echo parchment_mappings_version=2024.07.28
 echo.
 echo ## Loader Properties
-echo minecraft_version=1.21
-echo neo_version=21.0.86-beta
+echo minecraft_version=1.21.1
+echo neo_version=21.1.31
 echo loader_version_range=[4,^)
 echo.
 echo ## Mod Properties
@@ -184,8 +184,8 @@ echo group=%group%
 echo base_version=1.0
 echo.
 echo ## Upload Properties
-echo upload_versions=1.21
-echo upload_release=alpha
+echo upload_versions=1.21, 1.21.1
+echo upload_release=beta
 echo modrinth_project=%modrinth_id%
 echo curse_project=%curseforge_id%
 echo.

@@ -64,14 +64,14 @@ body:
     id: mod-version
     attributes:
       label: ${mod_name} version
-      placeholder: eg. 1.21-1.0.0
+      placeholder: eg. 1.21.1-1.0.0
     validations:
       required: true
   - type: input
     id: forge-version
     attributes:
       label: NeoForge version
-      placeholder: eg. 21.0.0-beta
+      placeholder: eg. 21.1.0
     validations:
       required: true
   - type: input
@@ -137,11 +137,11 @@ org.gradle.configuration-cache=true
 
 ## Mappings
 parchment_minecraft_version=1.21
-parchment_mappings_version=2024.07.07
+parchment_mappings_version=2024.07.28
 
 ## Loader Properties
-minecraft_version=1.21
-neo_version=21.0.86-beta
+minecraft_version=1.21.1
+neo_version=21.1.31
 loader_version_range=[4,)
 
 ## Mod Properties
@@ -151,7 +151,7 @@ group=${group}
 base_version=1.0
 
 ## Upload Properties
-upload_versions=1.21
+upload_versions=1.21, 1.21.1
 upload_release=beta
 modrinth_project=${modrinth_id}
 curse_project=${curseforge_id}
