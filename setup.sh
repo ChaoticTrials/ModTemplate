@@ -11,32 +11,32 @@ create_mods_toml_file() {
 
   cat <<EOF > ./src/main/resources/META-INF/neoforge.mods.toml
 modLoader="javafml"
-loaderVersion="\${loader_version_range}"
-license="\${license}"
-issueTrackerURL="https://github.com/ChaoticTrials/${github_repo_name}/issues"
+loaderVersion="[4,)"
+license="\${mod.license}"
+issueTrackerURL="\${mod.issue_url}"
 
 [[mods]]
-modId="\${modid}"
-version="\${mod_version}"
+modId="\${mod.modid}"
+version="\${mod.version}"
 displayName="${mod_name}"
+displayURL="\${mod.source_url}"
 updateJSONURL="https://assets.melanx.de/updates/${mod_id}.json"
-displayURL="https://modrinth.com/user/MelanX"
 authors="MelanX"
 description="""
 ${description}
 """
 
-[[dependencies.\${modid}]]
+[[dependencies.\${mod.modid}]]
     modId = "neoforge"
     type = "required"
-    versionRange = "[\${neo_version},)"
+    versionRange = "[\${mod.neoforge},)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.\${modid}]]
+[[dependencies.\${mod.modid}]]
     modId="minecraft"
     type="required"
-    versionRange="[\${minecraft_version},)"
+    versionRange="[\${mod.minecraft},)"
     ordering="NONE"
     side="BOTH"
 EOF
@@ -64,7 +64,7 @@ body:
     id: mod-version
     attributes:
       label: ${mod_name} version
-      placeholder: eg. 1.21.1-1.0.0
+      placeholder: eg. 21.1.0
     validations:
       required: true
   - type: input
@@ -120,50 +120,6 @@ body:
 EOF
 }
 
-create_gradle_properties() {
-  local mod_id="$1"
-  local github_repo_name="$2"
-  local mod_name="$3"
-  local group="$4"
-  local curseforge_id="$5"
-  local modrinth_id="$6"
-
-  cat <<EOF > ./gradle.properties
-org.gradle.jvmargs=-Xmx6G
-org.gradle.daemon=true
-org.gradle.parallel=true
-org.gradle.caching=true
-org.gradle.configuration-cache=true
-
-## Mappings
-parchment_minecraft_version=1.21
-parchment_mappings_version=2024.07.28
-
-## Loader Properties
-minecraft_version=1.21.1
-neo_version=21.1.31
-loader_version_range=[4,)
-
-## Mod Properties
-modid=${mod_id}
-mod_name=${mod_name}
-group=${group}
-base_version=1.0
-
-## Upload Properties
-upload_versions=1.21, 1.21.1
-upload_release=beta
-modrinth_project=${modrinth_id}
-curse_project=${curseforge_id}
-
-## Misc
-remote_maven=https://maven.melanx.de/release
-license=The Apache License, Version 2.0
-license_url=https://www.apache.org/licenses/LICENSE-2.0.txt
-changelog_repository=https://github.com/ChaoticTrials/${github_repo_name}/commit/%H
-EOF
-}
-
 create_settings_gradle() {
   local mod_name="$1"
   local mod_name_no_spaces=$(echo "${mod_name}" | tr -d ' ')
@@ -171,14 +127,10 @@ create_settings_gradle() {
   cat <<EOF > ./settings.gradle
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
         maven { url = 'https://maven.neoforged.net/releases' }
+        maven { url = 'https://maven.moddingx.org/release' }
     }
-}
-
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
 rootProject.name = '${mod_name_no_spaces}'
@@ -225,15 +177,28 @@ create_readme() {
   local mod_id="$5"
 
   cat <<EOF > ./README.md
-# §{mod_name}
+# ${mod_name}
 ${description}
 
 [![Modrinth](https://badges.moddingx.org/modrinth/versions/${modrinth_id})](https://modrinth.com/mod/${mod_id})
 [![Modrinth](https://badges.moddingx.org/modrinth/downloads/${modrinth_id})](https://modrinth.com/mod/${mod_id})
 
-[![Curseforge](https://badges.moddingx.org/curseforge/versions/${curseforge_id})](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
+[![CurseForge](https://badges.moddingx.org/curseforge/versions/${curseforge_id})](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
 [![CurseForge](https://badges.moddingx.org/curseforge/downloads/${curseforge_id})](https://www.curseforge.com/minecraft/mc-mods/${mod_id})
 EOF
+}
+
+edit_build_gradle() {
+  local mod_id="$1"
+  local github_repo_name="$2"
+  local curseforge_id="$3"
+  local modrinth_id="$4"
+  local build_file="build.gradle"
+
+  sed -i "s/%mod_id%/${mod_id}/g" "$build_file"
+  sed -i "s/%github_repo_name%/${github_repo_name}/g" "$build_file"
+  sed -i "s/%curseforge_id%/${curseforge_id}/g" "$build_file"
+  sed -i "s/%modrinth_id%/${modrinth_id}/g" "$build_file"
 }
 
 # Main script
@@ -245,13 +210,12 @@ read -p "Enter Group: " group
 read -p "Enter CurseForge ID: " curseforge_id
 read -p "Enter Modrinth ID: " modrinth_id
 
-# Call the function to create the file
 create_mods_toml_file "$mod_id" "$github_repo_name" "$mod_name" "$description"
 create_issue_templates "$mod_name"
-create_gradle_properties "$mod_id" "$github_repo_name" "$mod_name" "$group" "$curseforge_id" "$modrinth_id"
 create_settings_gradle "$mod_name"
 create_main_class "$mod_id" "$mod_name" "$group"
 create_readme "$mod_name" "$description" "$curseforge_id" "$modrinth_id" "$mod_id"
+edit_build_gradle "$mod_id" "$github_repo_name" "$curseforge_id" "$modrinth_id"
 
 echo "All files have been created successfully."
 echo "Delete setup scripts"

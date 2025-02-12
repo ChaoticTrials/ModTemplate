@@ -1,7 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-
 rem Main script
 set /p "mod_id=Enter mod ID: "
 set /p "github_repo_name=Enter GitHub repository name: "
@@ -13,10 +12,10 @@ set /p "modrinth_id=Enter Modrinth ID: "
 
 call :CreateModsTomlFile "%mod_id%" "%github_repo_name%" "%mod_name%" "%description%"
 call :CreateIssueTemplates "%mod_name%"
-call :CreateGradleProperties "%mod_id%" "%github_repo_name%" "%mod_name%" "%group%" "%curseforge_id%" "%modrinth_id%"
 call :CreateSettingsGradle "%mod_name%"
 call :CreateMainClass "%mod_id%" "%mod_name%" "%group%"
 call :CreateReadme "%mod_name%" "%description%" "%curseforge_id%" "%modrinth_id%" "%mod_id%"
+call :EditBuildGradle %mod_id% %github_repo_name% %curseforge_id% %modrinth_id%
 
 echo All files have been created successfully.
 endlocal
@@ -40,32 +39,32 @@ echo. > "src\main\resources\META-INF\accesstransformer.cfg"
 
 (
 echo modLoader="javafml"
-echo loaderVersion="${loader_version_range}"
-echo license="${license}"
-echo issueTrackerURL="https://github.com/ChaoticTrials/%github_repo_name%/issues"
+echo loaderVersion="[4,)"
+echo license="${mod.license}"
+echo issueTrackerURL="${mod.issue_url}"
 echo.
 echo [[mods]]
-echo modId="${modid}"
-echo version="${mod_version}"
+echo modId="${mod.modid}"
+echo version="${mod.version}"
 echo displayName="%mod_name%"
+echo displayURL="${mod.source_url}"
 echo updateJSONURL="https://assets.melanx.de/updates/%mod_id%.json"
-echo displayURL="https://modrinth.com/user/MelanX"
 echo authors="MelanX"
 echo description="""
 echo %description%
 echo """
 echo.
-echo [[dependencies.${modid}]]
+echo [[dependencies.${mod.modid}]]
 echo    modId = "neoforge"
 echo    type = "required"
-echo    versionRange = "[${neo_version},)"
+echo    versionRange = "[${mod.neoforge},)"
 echo    ordering="NONE"
 echo    side="BOTH"
 echo.
-echo [[dependencies.${modid}]]
+echo [[dependencies.${mod.modid}]]
 echo    modId="minecraft"
 echo    type="required"
-echo    versionRange="[${minecraft_version},)"
+echo    versionRange="[${mod.minecraft},)"
 echo    ordering="NONE"
 echo    side="BOTH"
 ) > "src\main\resources\META-INF\neoforge.mods.toml"
@@ -96,14 +95,14 @@ echo   - type: input
 echo     id: mod-version
 echo     attributes:
 echo       label: %mod_name% version
-echo       placeholder: eg. 1.21-1.0.0
+echo       placeholder: eg. 21.1.0
 echo     validations:
 echo       required: true
 echo   - type: input
 echo     id: forge-version
 echo     attributes:
 echo       label: NeoForge version
-echo       placeholder: eg. 21.0.0-beta
+echo       placeholder: eg. 21.1.0
 echo     validations:
 echo       required: true
 echo   - type: input
@@ -152,51 +151,6 @@ echo       required: true
 ) > ".github\ISSUE_TEMPLATE\feature_request.yml"
 goto :EOF
 
-rem Function to create gradle.properties file
-:CreateGradleProperties
-set "mod_id=%~1"
-set "github_repo_name=%~2"
-set "mod_name=%~3"
-set "group=%~4"
-set "curseforge_id=%~5"
-set "modrinth_id=%~6"
-
-(
-echo org.gradle.jvmargs=-Xmx6G
-echo org.gradle.daemon=true
-echo org.gradle.parallel=true
-echo org.gradle.caching=true
-echo org.gradle.configuration-cache=true
-echo.
-echo ## Mappings
-echo parchment_minecraft_version=1.21
-echo parchment_mappings_version=2024.07.28
-echo.
-echo ## Loader Properties
-echo minecraft_version=1.21.1
-echo neo_version=21.1.31
-echo loader_version_range=[4,^)
-echo.
-echo ## Mod Properties
-echo modid=%mod_id%
-echo mod_name=%mod_name%
-echo group=%group%
-echo base_version=1.0
-echo.
-echo ## Upload Properties
-echo upload_versions=1.21, 1.21.1
-echo upload_release=beta
-echo modrinth_project=%modrinth_id%
-echo curse_project=%curseforge_id%
-echo.
-echo ## Misc
-echo remote_maven=https://maven.melanx.de/release
-echo license=The Apache License, Version 2.0
-echo license_url=https://www.apache.org/licenses/LICENSE-2.0.txt
-echo changelog_repository=https://github.com/ChaoticTrials/%github_repo_name%/commit/%%H
-) > ".\gradle.properties"
-goto :EOF
-
 rem Function to create settings.gradle file
 :CreateSettingsGradle
 set "mod_name=%~1"
@@ -207,14 +161,10 @@ set "mod_name_no_spaces=%mod_name: =%"
 (
 echo pluginManagement {
 echo     repositories {
-echo         mavenLocal(^)
 echo         gradlePluginPortal(^)
 echo         maven { url = 'https://maven.neoforged.net/releases' }
+echo         maven { url = 'https://maven.moddingx.org/release' }
 echo     }
-echo }
-echo.
-echo plugins {
-echo     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 echo }
 echo.
 echo rootProject.name = '%mod_name_no_spaces%'
@@ -273,8 +223,23 @@ echo.
 echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/versions/%modrinth_id%^)](https://modrinth.com/mod/%mod_id%^)
 echo [^^^![Modrinth](https://badges.moddingx.org/modrinth/downloads/%modrinth_id%^)](https://modrinth.com/mod/%mod_id%^)
 echo.
-echo [^^^![Curseforge](https://badges.moddingx.org/curseforge/versions/%curseforge_id%^)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
+echo [^^^![CurseForge](https://badges.moddingx.org/curseforge/versions/%curseforge_id%^)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
 echo [^^^![CurseForge](https://badges.moddingx.org/curseforge/downloads/%curseforge_id%^)](https://www.curseforge.com/minecraft/mc-mods/%mod_id%^)
 ) > README.md
 
+goto :EOF
+
+rem Function to edit build.gradle file
+:EditBuildGradle
+set "BUILD_FILE=build.gradle"
+set "TEMP_FILE=%BUILD_FILE%.tmp"
+(for /f "delims=" %%A in (%BUILD_FILE%) do (
+    set "line=%%A"
+    set "line=!line:%%mod_id%%=%mod_id%!"
+    set "line=!line:%%github_repo_name%%=%github_repo_name%!"
+    set "line=!line:%%curseforge_id%%=%curseforge_id%!"
+    set "line=!line:%%modrinth_id%%=%modrinth_id%!"
+    echo !line!
+)) > %TEMP_FILE%
+move /y %TEMP_FILE% %BUILD_FILE%
 goto :EOF
