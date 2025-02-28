@@ -1,5 +1,5 @@
 plugins {
-    id 'org.moddingx.modgradle.meta' version '5.0.2'
+    id 'org.moddingx.modgradle.meta' version '5.1.0'
 }
 
 repositories {
@@ -10,8 +10,8 @@ repositories {
 
 var dev = System.getenv('IS_DEV')?.toBoolean() ?: false
 var baseVersion = '21.1'
-var libxVersion = '1.21.1-6.0.1'
-var jeiVersion = '19.21.0.247'
+var libxVersion = '1.21.1-6.0.9'
+var jeiVersion = '19.27.0.335'
 
 mod.configure {
     modid '%mod_id%'
@@ -19,7 +19,7 @@ mod.configure {
     versioning {
         if (dev) {
             def gitCommitHash = ['git', 'rev-parse', 'HEAD'].execute().text.trim()
-            constant baseVersion + (gitCommitHash ? "-${gitCommitHash}" : '')
+            constant baseVersion + '.999' + (gitCommitHash ? "-${gitCommitHash}" : '')
         } else {
             base baseVersion
             maven 'https://maven.melanx.de/release'
